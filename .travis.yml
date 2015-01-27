@@ -1,0 +1,31 @@
+language: python
+python: 
+  - "2.6"
+  - "2.7"
+  - "3.2"
+  - "3.3"
+  - "3.4"
+
+env:
+  global:
+    secure: "GOWi69wBCffn2Xori4LP3bpnNwwaF6NwiARC5gfQgvIthUP9DpC5FwIEXmBmcZ3Ky0OW1gA1twdJ6Bj6H7fWp0j+0He1EtuYySACazuogdE3lTBKdD/BLPuspidqWqyMLwBvHLolLCdj4fN6Zw0NG+CmFY3kO96kBNBGBSl9eDo="
+  matrix: 
+    - HTTP_LIBRARY=requests
+
+before_install: 
+  - pip install pep8 
+  - if [[ $TRAVIS_PYTHON_VERSION == *2.6* ]]; then pip install unittest2; fi
+  - if [[ $TRAVIS_PYTHON_VERSION == *2.6* ]]; then pip install importlib; fi
+  - pip install coverage 
+
+install: 
+  - pip install $HTTP_LIBRARY 
+
+script:
+  - pep8 .
+  - coverage run --omit "*test*,*requests*,*curl*,*pkg*,*argparse*,*site-packages*" --module test --verbose
+  - coverage report --show-missing
+
+notifications: 
+  email: 
+  - liuyu@opencps.net
