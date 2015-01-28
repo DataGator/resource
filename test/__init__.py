@@ -4,9 +4,7 @@
     ~~~~
 
     :copyright: 2015 by `University of Denver <http://pardee.du.edu/>`_
-    :license: Creative Commons 4.0 License (`CC BY-NC-SA 4.0`_).
-
-    .. _`CC BY-NC-SA 4.0`: http://creativecommons.org/licenses/by-nc-sa/4.0/
+    :license: Apache 2.0, see LICENSE for more details.
 
     :author: `LIU Yu <liuyu@opencps.net>`_
     :date: 2015/01/19
