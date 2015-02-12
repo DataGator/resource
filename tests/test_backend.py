@@ -167,6 +167,73 @@ class TestRepoOperations(unittest.TestCase):
 
         pass  # void return
 
+    def test_Repo_PUT_InvalidName(self):
+        # triggers SchemaValidationError within backend service
+        InvalidName = {
+            "kind": "datagator#DataSet",
+            "name": "IGO Members",
+            "repo": {
+                "kind": "datagator#Repo",
+                "name": self.repo
+            }
+        }
+        response = self.service.put(self.repo, InvalidName)
+        msg = response.json()
+        self.assertEqual(self.validator.validate(msg), None)
+        _log.debug(msg.get("message"))
+        self.assertEqual(msg.get("kind"), "datagator#Error")
+        self.assertEqual(msg.get("code"), 400)
+        pass  # void return
+
+    def test_Repo_PUT_MissingKind(self):
+        # triggers SchemaValidationError within backend service
+        MissingKind = {
+            "name": "IGO_Members",
+            "repo": {
+                "kind": "datagator#Repo",
+                "name": self.repo
+            }
+        }
+        response = self.service.put(self.repo, MissingKind)
+        msg = response.json()
+        self.assertEqual(self.validator.validate(msg), None)
+        _log.debug(msg.get("message"))
+        self.assertEqual(msg.get("kind"), "datagator#Error")
+        self.assertEqual(msg.get("code"), 400)
+        pass  # void return
+
+    def test_Repo_PUT_InvalidKind(self):
+        # triggers AssertionError within backend service
+        InvalidKind = {
+            "kind": "datagator#Repo",
+            "name": "Whatever"
+        }
+        response = self.service.put(self.repo, InvalidKind)
+        msg = response.json()
+        self.assertEqual(self.validator.validate(msg), None)
+        _log.debug(msg.get("message"))
+        self.assertEqual(msg.get("kind"), "datagator#Error")
+        self.assertEqual(msg.get("code"), 400)
+        pass  # void return
+
+    def test_Repo_PUT_InconsistentRepo(self):
+        # triggers AssertionError within backend service
+        InconsistentRepo = {
+            "kind": "datagator#DataSet",
+            "name": "Whatever",
+            "repo": {
+                "kind": "datagator#Repo",
+                "name": "NonExistentRepo"
+            }
+        }
+        response = self.service.put(self.repo, InconsistentRepo)
+        msg = response.json()
+        self.assertEqual(self.validator.validate(msg), None)
+        _log.debug(msg.get("message"))
+        self.assertEqual(msg.get("kind"), "datagator#Error")
+        self.assertEqual(msg.get("code"), 400)
+        pass  # void return
+
     pass
 
 
@@ -243,6 +310,88 @@ class TestDataSetOperations(unittest.TestCase):
         self.assertEqual(task.get("kind"), "datagator#Task")
         self.assertEqual(task.get("status"), "SUC")
 
+        pass  # void return
+
+    def test_DataSet_PUT_InvalidPayload(self):
+        # triggers AssertionError within backend service
+        id = "{0}/{1}".format(self.repo, "IGO_Members")
+        InvalidPayload = ["array", "as", "payload"]
+        response = self.service.put(id, InvalidPayload)
+        msg = response.json()
+        self.assertEqual(self.validator.validate(msg), None)
+        _log.debug(msg.get("message"))
+        self.assertEqual(msg.get("kind"), "datagator#Error")
+        self.assertEqual(msg.get("code"), 400)
+        pass  # void return
+
+    def test_DataSet_PUT_MissingKind(self):
+        # triggers SchemaValidationError within backend service
+        id = "{0}/{1}".format(self.repo, "IGO_Members")
+        MissingKind = {
+            "UN": {
+                "name": "IGO_Members",
+                "repo": {
+                    "kind": "datagator#Repo",
+                    "name": self.repo
+                }
+            }
+        }
+        response = self.service.put(id, MissingKind)
+        msg = response.json()
+        self.assertEqual(self.validator.validate(msg), None)
+        _log.debug(msg.get("message"))
+        self.assertEqual(msg.get("kind"), "datagator#Error")
+        self.assertEqual(msg.get("code"), 400)
+        pass  # void return
+
+    def test_DataSet_PUT_InvalidKey(self):
+        # triggers AssertionError within backend service
+        id = "{0}/{1}".format(self.repo, "IGO_Members")
+        InvalidKey = {
+            "U#N": json.loads(to_unicode(
+                load_data(os.path.join("json", "IGO_Members", "WTO.json"))))
+        }
+        response = self.service.put(id, InvalidKey)
+        msg = response.json()
+        self.assertEqual(self.validator.validate(msg), None)
+        _log.debug(msg.get("message"))
+        self.assertEqual(msg.get("kind"), "datagator#Error")
+        self.assertEqual(msg.get("code"), 400)
+        pass  # void return
+
+    def test_DataSet_PUT_InvalidKind(self):
+        # triggers AssertionError within backend service
+        id = "{0}/{1}".format(self.repo, "IGO_Members")
+        InvalidKind = {
+            "UN": {
+                "kind": "datagator#DataSet",
+                "name": "IGO_Members",
+                "repo": {
+                    "kind": "datagator#Repo",
+                    "name": self.repo
+                }
+            }
+        }
+        response = self.service.put(id, InvalidKind)
+        msg = response.json()
+        self.assertEqual(self.validator.validate(msg), None)
+        _log.debug(msg.get("message"))
+        self.assertEqual(msg.get("kind"), "datagator#Error")
+        self.assertEqual(msg.get("code"), 400)
+        pass  # void return
+
+    def test_DataSet_PUT_RemoveNonExistent(self):
+        # triggers AssertionError within backend service
+        id = "{0}/{1}".format(self.repo, "IGO_Members")
+        RemoveNonExistent = {
+            "NonExistent": None
+        }
+        response = self.service.put(id, RemoveNonExistent)
+        msg = response.json()
+        self.assertEqual(self.validator.validate(msg), None)
+        _log.debug(msg.get("message"))
+        self.assertEqual(msg.get("kind"), "datagator#Error")
+        self.assertEqual(msg.get("code"), 400)
         pass  # void return
 
     pass
