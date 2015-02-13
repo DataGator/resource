@@ -122,7 +122,7 @@ On failure, the response is a ``Message`` object with error code and description
     {
         "kind": "datagator#Error",
         "code": 404,
-        "message": "invalid repository 'NonExistence'",
+        "message": "Invalid repository 'NonExistence'",
         "service": "datagator.wsgi.api"
     }
 
@@ -199,7 +199,7 @@ For another instance, if the ``DataSet`` object submitted within the ``payload``
     {
         "kind": "datagator#Error",
         "code": 400,
-        "message": "Invalid data.",
+        "message": "Invalid dataset repository 'Pardee'.",
         "service": "datagator.wsgi.api"
     }
 
@@ -264,7 +264,7 @@ On failure, the response is a ``Message`` object with error code and description
     {
         "kind": "datagator#Error",
         "code": 404,
-        "message": "no such revision '100'",
+        "message": "No such revision '100'",
         "service": "datagator.wsgi.api"
     }
 
