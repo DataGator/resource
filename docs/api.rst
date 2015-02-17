@@ -4,7 +4,7 @@
 ::
 
   author: LIU Yu <liuyu@opencps.net>
-  revision: 0.6
+  revision: 0.7
 
 .. [*] This document is copyrighted by the `Frederick S. Pardee Center for International Futures <http://pardee.du.edu>`_ (abbr. `Pardee`) at University of Denver, and distributed under the terms of the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License (`CC BY-NC-ND 4.0 <http://creativecommons.org/licenses/by-nc-nd/4.0/>`_).
 
